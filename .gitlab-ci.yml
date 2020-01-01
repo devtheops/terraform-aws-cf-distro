@@ -1,0 +1,10 @@
+test:
+  only:
+    - merge_requests
+  stage: test
+  tags:
+    - linux
+    - docker
+    - tests
+  script:
+    - make test
