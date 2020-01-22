@@ -65,11 +65,11 @@ data "archive_file" "default_spa_zip" {
 resource "aws_lambda_function" "default_spa_lambda" {
   count            = local.enable_spa_lambda ? 1 : 0
   filename         = join("", data.archive_file.default_spa_zip.*.output_path)
-  function_name    = "marctest-spa-test"
+  function_name    = "${var.app}-${var.name}-${var.environment}"
   role             = join("", aws_iam_role.spa_role.*.arn)
   handler          = "spa_lambda.handler"
   source_code_hash = join("", data.archive_file.default_spa_zip.*.output_base64sha256)
-  runtime          = "nodejs8.10"
+  runtime          = "nodejs10.x"
   tags             = merge(local.default_tags, var.tags)
   publish          = true
 }
